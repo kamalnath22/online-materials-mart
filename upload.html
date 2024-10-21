@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Sell Scrap - Construction Store</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">Construction Store</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="upload.html">Sell Scrap</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="main-content">
+        <h1>Upload Scrap Item</h1>
+        <form id="uploadForm">
+            <input type="text" placeholder="Item Name" id="itemName" required>
+            <input type="number" placeholder="Price (INR)" id="itemPrice" required>
+            <input type="file" id="itemImage" accept="image/*" required>
+            <button type="submit">Upload Item</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2024 Construction Store. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

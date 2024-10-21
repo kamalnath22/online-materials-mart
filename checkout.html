@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Checkout - Online Construction Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .checkout-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2, h3, h4 {
+            text-align: center;
+            color: white;
+        }
+
+        .address-form input, .payment-details input, .payment-details select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .address-form input:focus, .payment-details input:focus, .payment-details select:focus {
+            border-color: white;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .payment-option label {
+            margin-left: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .payment-option {
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .payment-details {
+            margin-top: 20px;
+        }
+
+        /* Attractive Styling for UPI and Card Sections */
+        #upi-section, #card-section, #net-banking-section {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #bdb6b6;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        #upi-id, #card-number, #card-expiry, #card-cvv {
+            border: 2px solid #ccc;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #upi-id:focus, #card-number:focus, #card-expiry:focus, #card-cvv:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .bank-logos {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .bank-button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .bank-button img {
+            width: 100px;
+            height: 50px;
+            object-fit: contain;
+        }
+
+        .bank-button:hover {
+            transform: scale(1.1);
+        }
+
+        .payment-option input[type="radio"] {
+            width: 20px;
+            height: 20px;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        /* Add some responsiveness */
+        @media (max-width: 768px) {
+            .checkout-container {
+                padding: 15px;
+            }
+
+            .bank-button img {
+                width: 80px;
+                height: 40px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Checkout</h1>
+    </header>
+    
+    <div class="checkout-container">
+        <h2>Your Cart</h2>
+        <div id="cart-items">
+            <!-- Dynamically filled with cart items -->
+        </div>
+
+        <h3>Delivery Address</h3>
+        <form id="checkout-form">
+            <div class="address-form">
+                <input type="text" placeholder="Full Name" required>
+                <input type="text" placeholder="Address Line 1" required>
+                <input type="text" placeholder="Address Line 2">
+                <input type="text" placeholder="City" required>
+                <input type="text" placeholder="State" required>
+                <input type="text" placeholder="Zip Code" required>
+                <input type="text" placeholder="Phone Number" required>
+            </div>
+            
+            <h3>Payment Information</h3>
+            <div class="payment-options">
+                <div class="payment-option">
+                    <input type="radio" id="upi" name="payment" value="UPI" required onclick="showPaymentDetails('upi')">
+                    <label for="upi">UPI</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="debit-card" name="payment" value="Debit Card" required onclick="showPaymentDetails('card')">
+                    <label for="debit-card">Debit Card</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="credit-card" name="payment" value="Credit Card" required onclick="showPaymentDetails('card')">
+                    <label for="credit-card">Credit Card</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="net-banking" name="payment" value="Net Banking" required onclick="showPaymentDetails('net-banking')">
+                    <label for="net-banking">Net Banking</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" id="cod" name="payment" value="Cash on Delivery" required>
+                    <label for="cod">Cash on Delivery</label>
+                </div>
+            </div>
+            
+            <button type="submit">Confirm Payment</button>
+        </form>
+        
+        <!-- UPI Payment Section -->
+        <div id="upi-section" class="payment-details">
+            <label for="upi-id">UPI ID:</label>
+            <input type="text" id="upi-id" name="upi-id" placeholder="Enter your UPI ID">
+        </div>
+
+        <!-- Card Payment Section -->
+        <div id="card-section" class="payment-details">
+            <label for="card-number">Card Number:</label>
+            <input type="text" id="card-number" name="card-number" placeholder="1234 5678 9101 1121" required>
+            
+            <label for="card-expiry">Expiry Date:</label>
+            <input type="text" id="card-expiry" name="card-expiry" placeholder="MM/YY" required>
+            
+            <label for="card-cvv">CVV:</label>
+            <input type="text" id="card-cvv" name="card-cvv" placeholder="123" required>
+        </div>
+
+        <!-- Net Banking Section -->
+        <div id="net-banking-section" class="payment-details">
+            <h4 >Select Bank</h4>
+            <div class="bank-logos">
+                <button class="bank-button" onclick="alert('HDFC selected')">
+                    <img src="hdfc.png" alt="HDFC Bank">
+                </button>
+                <button class="bank-button" onclick="alert('ICICI selected')">
+                    <img src="icici.png" alt="ICICI Bank">
+                </button>
+                <button class="bank-button" onclick="alert('SBI selected')">
+                    <img src="sbi.png" alt="SBI Bank">
+                </button>
+                <button class="bank-button" onclick="alert('Axis selected')">
+                    <img src="axis.png" alt="Axis Bank">
+                </button>
+                <button class="bank-button" onclick="alert('PNB selected')">
+                    <img src="pnb.png" alt="PNB Bank">
+                </button>
+            </div>
+        </div>
+        
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Online Construction Store</p>
+    </footer>
+    
+    <script src="script.js"></script>
+    <script>
+        function showPaymentDetails(paymentType) {
+            document.getElementById('upi-section').style.display = 'none';
+            document.getElementById('card-section').style.display = 'none';
+            document.getElementById('net-banking-section').style.display = 'none';
+
+            if (paymentType === 'upi') {
+                document.getElementById('upi-section').style.display = 'block';
+            } else if (paymentType === 'card') {
+                document.getElementById('card-section').style.display = 'block';
+            } else if (paymentType === 'net-banking') {
+                document.getElementById('net-banking-section').style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

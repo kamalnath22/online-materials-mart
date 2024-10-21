@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sell Your Scrap</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sell-scrap-container {
+            margin: 30px auto;
+            padding: 20px;
+            max-width: 800px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sell-scrap-container h2 {
+            text-align: center;
+            color: #007bff;
+        }
+
+        fieldset {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="email"],
+        select,
+        input[type="file"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .preview-section {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px dashed #007bff;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+        }
+
+        .preview-section img {
+            max-width: 200px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sell-scrap-container">
+        <h2>Sell Your Scrap</h2>
+        <form id="sell-scrap-form">
+            <fieldset>
+                <legend>Scrap Details</legend>
+
+                <!-- New fields for Name, Contact Number, and Email ID -->
+                <label for="sellerName">Your Name:</label>
+                <input type="text" id="sellerName" placeholder="Enter your full name" required>
+
+                <label for="contactNumber">Contact Number:</label>
+                <input type="tel" id="contactNumber" placeholder="Enter your contact number" required>
+
+                <label for="emailId">Email ID:</label>
+                <input type="email" id="emailId" placeholder="Enter your email address" required>
+
+                <!-- Existing scrap-specific fields -->
+                <label for="scrapName">Scrap Name:</label>
+                <input type="text" id="scrapName" placeholder="Enter the scrap name" required>
+
+                <label for="scrapDescription">Description:</label>
+                <textarea id="scrapDescription" rows="4" placeholder="Describe the scrap item" required></textarea>
+
+                <label for="scrapCondition">Condition:</label>
+                <select id="scrapCondition" required>
+                    <option value="" disabled selected>Select condition</option>
+                    <option value="New">New</option>
+                    <option value="Used">Used</option>
+                    <option value="Damaged">Damaged</option>
+                </select>
+
+                <label for="scrapPrice">Price Quotation (₹):</label>
+                <input type="number" id="scrapPrice" placeholder="Enter the price quotation" required>
+
+                <label for="scrapImage">Upload Image:</label>
+                <input type="file" id="scrapImage" accept="image/*" required>
+
+                <button type="button" onclick="updatePreview()">Preview Item</button>
+            </fieldset>
+            <button type="submit">Submit Scrap Item</button>
+        </form>
+
+        <div class="preview-section" id="scrap-preview">
+            <h3>Preview of Your Scrap Item</h3>
+            <img id="previewImage" alt="Scrap Preview">
+            <p><strong>Name:</strong> <span id="previewName"></span></p>
+            <p><strong>Description:</strong> <span id="previewDescription"></span></p>
+            <p><strong>Condition:</strong> <span id="previewCondition"></span></p>
+            <p><strong>Price Quotation:</strong> ₹<span id="previewPrice"></span></p>
+            <p><strong>Your Name:</strong> <span id="previewSellerName"></span></p>
+            <p><strong>Contact Number:</strong> <span id="previewContactNumber"></span></p>
+            <p><strong>Email ID:</strong> <span id="previewEmailId"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function updatePreview() {
+            const scrapName = document.getElementById('scrapName').value;
+            const scrapDescription = document.getElementById('scrapDescription').value;
+            const scrapCondition = document.getElementById('scrapCondition').value;
+            const scrapPrice = document.getElementById('scrapPrice').value;
+            const scrapImage = document.getElementById('scrapImage').files[0];
+            const sellerName = document.getElementById('sellerName').value;
+            const contactNumber = document.getElementById('contactNumber').value;
+            const emailId = document.getElementById('emailId').value;
+
+            if (scrapName && scrapDescription && scrapCondition && scrapPrice && scrapImage) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('previewName').innerText = scrapName;
+                    document.getElementById('previewDescription').innerText = scrapDescription;
+                    document.getElementById('previewCondition').innerText = scrapCondition;
+                    document.getElementById('previewPrice').innerText = scrapPrice;
+                    document.getElementById('previewSellerName').innerText = sellerName;
+                    document.getElementById('previewContactNumber').innerText = contactNumber;
+                    document.getElementById('previewEmailId').innerText = emailId;
+
+                    // Show the preview section
+                    document.getElementById('scrap-preview').style.display = 'block';
+                };
+                reader.readAsDataURL(scrapImage);
+            } else {
+                alert("Please fill in all fields and upload an image before previewing.");
+            }
+        }
+
+        // Handle the submission of the form
+        document.getElementById('sell-scrap-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const scrapName = document.getElementById('scrapName').value;
+            const scrapDescription = document.getElementById('scrapDescription').value;
+            const scrapCondition = document.getElementById('scrapCondition').value;
+            const scrapPrice = document.getElementById('scrapPrice').value;
+
+            if (scrapName && scrapDescription && scrapCondition && scrapPrice) {
+                alert(`Scrap item "${scrapName}" has been submitted successfully with a price quotation of ₹${scrapPrice}!`);
+                
+                // Reset form and hide the preview
+                document.getElementById('sell-scrap-form').reset();
+                document.getElementById('scrap-preview').style.display = 'none';
+            } else {
+                alert("Please fill in all the fields before submitting.");
+            }
+        });
+    </script>
+</body>
+
+</html>
